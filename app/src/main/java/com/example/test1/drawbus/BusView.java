@@ -29,13 +29,13 @@ public class BusView extends View {
     int topOffset = 5;//顶部留白
     int bottomOffset = 5;//底部留白
 
-    int lineWidth = 5;
+    int lineWidth = 5;//线条宽度
 
     int textCircleOffset = 14;//圈与文本之间的留白
 
     int textSizeCirlce = 12;//圆圈文字大小
 
-    int spaceOffset = 1;
+    int spaceOffset = 1;//色块增大范围
 
     public BusView(Context context) {
         super(context);
@@ -253,22 +253,22 @@ public class BusView extends View {
         mPaint.setTextSize(busStopNameSize);
 
         int textCount = item.getTextCount();
-        int fontHeight = busStopNameSize;//方块字,认为字的大小是每个字的宽度
+        float fontHeight = getFontVerticalHeight();
         //文字太长,全部都绘制
 
         //文字绘制空间
         int textSpace = 2 * oneHeight - topOffset - textCircleOffset;
-        int maxTextCount = textSpace / fontHeight;
+        int maxTextCount = (int) (textSpace / fontHeight);
 
         List<Point> lists = new ArrayList<>(maxTextCount);
         //文字太多
-        if (textCount >= maxTextCount) {
+        if (textCount > maxTextCount) {
             for (int i = 0; i < maxTextCount; i++) {
-                lists.add(new Point(x, fontHeight + topOffset + fontHeight * i));
+                lists.add(new Point(x, (int) (fontHeight + topOffset + fontHeight * i)));
             }
         } else {//文字少
             for (int i = textCount - 1; i >= 0; i--) {
-                lists.add(new Point(x, topOffset + textSpace - fontHeight * i));
+                lists.add(new Point(x, (int) (topOffset + textSpace - fontHeight * i)));
             }
         }
         //画背景
@@ -294,6 +294,14 @@ public class BusView extends View {
         }
     }
 
+    /***
+     * 调整行高
+     * @return
+     */
+    private float getFontVerticalHeight() {
+        return getFontHeight(mPaint) * 1.6f;
+    }
+
     private void drawBottomText(Canvas canvas, BusInfoItem item, int x, int y) {
         //偏移一值
         y += textCircleOffset;
@@ -304,19 +312,19 @@ public class BusView extends View {
         mPaint.setTextSize(busStopNameSize);
 
         int textCount = item.getTextCount();
-        int fontHeight = busStopNameSize;//方块字,认为字的大小是每个字的宽度
+        float fontHeight = getFontVerticalHeight();//两个竖直文字之间的间隔
         //文字太长,全部都绘制
 
         //文字绘制空间
         int textSpace = 2 * oneHeight - topOffset - textCircleOffset;
-        int maxTextCount = textSpace / fontHeight;
+        int maxTextCount = (int) (textSpace / fontHeight);
 
         int marginTop = y;
         List<Point> lists = new ArrayList<>(maxTextCount);
 
         int maxCount = Math.min(maxTextCount, textCount);
         for (int i = 0; i < maxCount; i++) {
-            lists.add(new Point(x, fontHeight + marginTop + fontHeight * i));
+            lists.add(new Point(x, (int) (fontHeight + marginTop + fontHeight * i)));
         }
         //画背景
         int bgColor = item.getTextBgColor();
@@ -387,7 +395,7 @@ public class BusView extends View {
      */
     protected int getFontHeight(Paint paint) {
         Paint.FontMetrics fm = paint.getFontMetrics();
-        return (int) (Math.ceil(fm.descent - fm.top) + 2) / 2;
+        return (int) (Math.ceil(fm.descent - fm.ascent) + 2) / 2;
     }
 
 

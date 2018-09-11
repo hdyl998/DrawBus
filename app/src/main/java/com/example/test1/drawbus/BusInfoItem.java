@@ -73,7 +73,8 @@ public class BusInfoItem {
      */
     public int getTextBgColor() {
         if (isRed()) {
-            return 0xffdd3c23;
+            return Color.BLUE;
+//            return 0xffdd3c23;
         }
         return Color.TRANSPARENT;
     }
