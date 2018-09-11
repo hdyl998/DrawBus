@@ -23,7 +23,7 @@ public class BusView extends View {
 
     int leftOffset = 15;//左部留白
     int rightOffset = 15;//右部留白
-    int cirCleSize = 10;
+    int cirCleSize = 10;//圆圈大小
     int busStopNameSize = 12;
 
     int topOffset = 5;//顶部留白
@@ -94,7 +94,6 @@ public class BusView extends View {
 
 
     @Override
-
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         if (getWidth() == 0) {
@@ -102,16 +101,64 @@ public class BusView extends View {
         }
         if (infoManager.isNeedDrawDoubleLine()) {
             oneHeight = getHeight() / 5;//大概5等分
-
-            drawBgLine(canvas);
-            drawOthers(canvas);
-            drawNextStation(canvas);
+            drawBgLine(canvas);//画线
+            drawOthers(canvas);//画其它的
+            drawNextStation(canvas);//画下一站文本
         } else {
-
+            oneHeight = getHeight() / 3;//大概3等分
+            drawBgLineShort(canvas);
+            drawOthersShort(canvas);
+            drawNextStationShort(canvas);
         }
-
-
     }
+
+    private void drawNextStationShort(Canvas canvas) {
+        int firstTextSize = dip2px(12);
+        int secondTextSize = dip2px(16);
+        mPaint.setTextSize(firstTextSize);
+        String text = "下一站:";
+        float length = mPaint.measureText(text) / 2;
+        int centerX = (int) (getWidth() / 2 - length);
+        int y1 = oneHeight / 2 + getFontHeight(mPaint) / 2;
+        mPaint.setColor(ColorConstants.COLOR_GRAY);
+        canvas.drawText(text, centerX, y1, mPaint);
+
+        mPaint.setTextSize(secondTextSize);
+
+        mPaint.setTextAlign(Paint.Align.LEFT);
+        int y2 = oneHeight / 2 + getFontHeight(mPaint) / 2;
+        String nextStation = infoManager.getNextStationName();
+        canvas.drawText(nextStation, centerX + length, y2, mPaint);
+        mPaint.setColor(ColorConstants.COLOR_BLACK);
+        mPaint.setTextAlign(Paint.Align.CENTER);
+    }
+
+    private void drawOthersShort(Canvas canvas) {
+        int allCount = infoManager.getCount();
+        float xTotal = (getWidth() - leftOffset - rightOffset);//x总长度
+        float XOneLength = xTotal / (allCount - 1);//上面X每份长度
+
+        for (int i = 0; i < allCount; i++) {
+            int x = (int) (leftOffset + XOneLength * i);
+            int y = oneHeight;
+            drawBusInfoItem(canvas, infoManager.getListInfos().get(i), x, y);
+            drawBottomText(canvas, infoManager.getListInfos().get(i), x, y);
+        }
+    }
+
+
+    private void drawBgLineShort(Canvas canvas) {
+        Path path = new Path();
+        path.moveTo(leftOffset, oneHeight);
+        path.lineTo(getWidth() - rightOffset, oneHeight);
+
+        mPaint.setStrokeWidth(lineWidth);
+        mPaint.setColor(0xff4d5c66);
+        mPaint.setStyle(Paint.Style.STROKE);
+        canvas.drawPath(path, mPaint);
+        mPaint.setStyle(Paint.Style.FILL);
+    }
+
 
     private void drawNextStation(Canvas canvas) {
         int firstTextSize = dip2px(12);
@@ -132,8 +179,6 @@ public class BusView extends View {
         canvas.drawText(nextStation, centerX + length, y2, mPaint);
         mPaint.setColor(ColorConstants.COLOR_BLACK);
         mPaint.setTextAlign(Paint.Align.CENTER);
-
-
     }
 
     private void drawOthers(Canvas canvas) {
@@ -158,7 +203,6 @@ public class BusView extends View {
             drawBottomText(canvas, infoManager.getListInfos().get(i), x, y);
             count++;
         }
-
 //        mPaint.setStyle(Paint.Style.FILL);
     }
 
@@ -251,6 +295,9 @@ public class BusView extends View {
     }
 
     private void drawBottomText(Canvas canvas, BusInfoItem item, int x, int y) {
+        //偏移一值
+        y += textCircleOffset;
+
         mPaint.setStyle(Paint.Style.FILL);
 
         mPaint.setStrokeWidth(1);
@@ -264,7 +311,7 @@ public class BusView extends View {
         int textSpace = 2 * oneHeight - topOffset - textCircleOffset;
         int maxTextCount = textSpace / fontHeight;
 
-        int marginTop = 3 * oneHeight + textCircleOffset;
+        int marginTop = y;
         List<Point> lists = new ArrayList<>(maxTextCount);
 
         int maxCount = Math.min(maxTextCount, textCount);
@@ -299,7 +346,6 @@ public class BusView extends View {
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
-
     }
 
     @Override
