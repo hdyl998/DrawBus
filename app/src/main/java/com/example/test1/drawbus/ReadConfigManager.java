@@ -23,7 +23,7 @@ public class ReadConfigManager {
     private static ReadConfigManager manager;
 
 
-    public static void restConfig() {
+    public static void resetConfig() {
         manager = new ReadConfigManager();
     }
 
