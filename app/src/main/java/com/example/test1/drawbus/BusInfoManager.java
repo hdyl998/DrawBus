@@ -10,16 +10,13 @@ import java.util.List;
 
 public class BusInfoManager {
 
-    //公交站台名字
-    public String[] strings = {"交易公交站", "葆地", "交", "交", "大开工", "一切", "苦式工", "葆地", "交", "大开工", "一切", "苦式工", "葆地", "交", "大开工", "一切", "苦式工", "葆地", "交", "大开工", "一切", "苦式工", "葆地", "交", "一切", "苦式工", "大运地铁站"};
 
-    //公交站台名字
-//    public String[] strings = {"交易公交站", "葆地", "葆地", "交122", "交222", "大运地铁站"};
-    public List<BusInfoItem> listInfos = new ArrayList<>();
+    public List<BusInfoItem> listInfos;
 
     {
+        listInfos = new ArrayList<>(ReadConfigManager.getInstance().getBusStops().length);
         int index = 0;
-        for (String s : strings) {
+        for (String s : ReadConfigManager.getInstance().getBusStops()) {
             BusInfoItem infoItem = new BusInfoItem();
             infoItem.index = index;
             infoItem.name = s;
@@ -40,14 +37,12 @@ public class BusInfoManager {
     public static int currentIndex;
 
 
-    public String busNo = "19";
-
     /***
      *线路:19
      * @return
      */
     public String getBusNo() {
-        return busNo;
+        return ReadConfigManager.getInstance().getBusLineNo();
     }
 
     //获得区间名字
@@ -57,11 +52,11 @@ public class BusInfoManager {
 
 
     /***
-     * 超过指定行数,则需要绘制双行
+     * 多余指定行数,则需要绘制双行
      * @return
      */
     public boolean isNeedDrawDoubleLine() {
-        return listInfos.size() >= 13;
+        return listInfos.size() > ReadConfigManager.getInstance().getTwoLineLimit();
     }
 
     /***
