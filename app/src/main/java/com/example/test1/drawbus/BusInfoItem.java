@@ -37,10 +37,10 @@ public class BusInfoItem {
      */
     public int getTextColor() {
         if (isGray()) {
-            return 0xff787878;
+            return ColorConstants.COLOR_GRAY;
         }
         if (isGreen()) {
-            return 0xff4d5c66;
+            return ColorConstants.COLOR_BLACK;
         }
         return Color.WHITE;
     }
@@ -62,7 +62,7 @@ public class BusInfoItem {
             return ColorConstants.COLOR_GRAY;
         }
         if (isGreen()) {
-            return 0xff2c793f;
+            return ColorConstants.COLOR_GREEN;
         }
         return ColorConstants.COLOR_RED;
     }
@@ -73,8 +73,7 @@ public class BusInfoItem {
      */
     public int getTextBgColor() {
         if (isRed()) {
-            return Color.BLUE;
-//            return 0xffdd3c23;
+            return ColorConstants.COLOR_RED;
         }
         return Color.TRANSPARENT;
     }

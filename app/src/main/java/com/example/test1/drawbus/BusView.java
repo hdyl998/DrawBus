@@ -153,7 +153,7 @@ public class BusView extends View {
         path.lineTo(getWidth() - rightOffset, oneHeight);
 
         mPaint.setStrokeWidth(lineWidth);
-        mPaint.setColor(0xff4d5c66);
+        mPaint.setColor(ColorConstants.COLOR_GRAY);
         mPaint.setStyle(Paint.Style.STROKE);
         canvas.drawPath(path, mPaint);
         mPaint.setStyle(Paint.Style.FILL);
@@ -176,8 +176,8 @@ public class BusView extends View {
         mPaint.setTextAlign(Paint.Align.LEFT);
         int y2 = getHeight() / 2 + getFontHeight(mPaint) / 2;
         String nextStation = infoManager.getNextStationName();
-        canvas.drawText(nextStation, centerX + length, y2, mPaint);
         mPaint.setColor(ColorConstants.COLOR_BLACK);
+        canvas.drawText(nextStation, centerX + length, y2, mPaint);
         mPaint.setTextAlign(Paint.Align.CENTER);
     }
 
@@ -218,7 +218,7 @@ public class BusView extends View {
         path.lineTo(leftOffset, 3 * oneHeight);
 
         mPaint.setStrokeWidth(lineWidth);
-        mPaint.setColor(0xff4d5c66);
+        mPaint.setColor(ColorConstants.COLOR_GRAY);
         mPaint.setStyle(Paint.Style.STROKE);
         canvas.drawPath(path, mPaint);
 
