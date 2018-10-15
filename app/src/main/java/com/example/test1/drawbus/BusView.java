@@ -11,6 +11,8 @@ import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
 
+import com.example.test1.drawbus.tools.CalcTime;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -99,6 +101,7 @@ public class BusView extends View {
         if (getWidth() == 0) {
             return;
         }
+        CalcTime calcTime=new CalcTime();
         if (infoManager.isNeedDrawDoubleLine()) {
             oneHeight = getHeight() / 5;//大概5等分
             drawBgLine(canvas);//画线
@@ -110,6 +113,7 @@ public class BusView extends View {
             drawOthersShort(canvas);
             drawNextStationShort(canvas);
         }
+        calcTime.printResult("aa");
     }
 
     private void drawNextStationShort(Canvas canvas) {

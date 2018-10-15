@@ -9,13 +9,43 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        flavorDimensions("money", "channel")
     }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+        debug {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
     }
+
+
+
+
+    productFlavors {
+
+        vip {
+            dimension "money"
+        }
+
+        free {
+            dimension "money"
+        }
+
+        baidu {
+            manifestPlaceholders = [CHANNEL: "baidu"]
+            dimension "channel"
+        }
+
+        xiaomi {
+            manifestPlaceholders = [CHANNEL: "xiaomi"]
+            dimension "channel"
+        }
+    }
+
 }
 
 dependencies {
